@@ -25,7 +25,6 @@ export default function StarRating({
     color,
     fontSize: `${size / 1.5}px`,
   };
-
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
