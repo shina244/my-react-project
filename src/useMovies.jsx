@@ -6,7 +6,7 @@ export function useMovies(query) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [movies, setMovies] = useState([]);
-
+  //using useEffect to fetch from the  API
   useEffect(() => {
     const controller = new AbortController();
     async function fetchMovies() {
