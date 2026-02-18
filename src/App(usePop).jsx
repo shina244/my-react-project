@@ -3,6 +3,7 @@ import StarRating from "./StarRating";
 import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
 import { useKey } from "./useKey";
+import Form from "./Form";
 
 // const tempMovieData = [
 //   {
@@ -62,7 +63,8 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
   const { movies, error, isLoading } = useMovies(query);
   const [watched, setWatched] = useLocalStorageState([], "watched") || [];
-
+  const [userInfo, setUserInfo] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
   }
@@ -87,6 +89,19 @@ export default function App() {
     },
     [watched],
   );
+
+  if (!loggedIn) {
+    return (
+      <>
+        <Form
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+          // loggedIn={loggedIn}s
+          setLoggedIn={setLoggedIn}
+        />
+      </>
+    );
+  }
 
   return (
     <>
