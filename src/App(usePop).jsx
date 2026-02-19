@@ -4,6 +4,7 @@ import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
 import { useKey } from "./useKey";
 import Form from "./Form";
+import { FiLogOut } from "react-icons/fi";
 
 // const tempMovieData = [
 //   {
@@ -63,8 +64,13 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
   const { movies, error, isLoading } = useMovies(query);
   const [watched, setWatched] = useLocalStorageState([], "watched") || [];
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState(() => {
+    const stored = localStorage.getItem("userInfo");
+    return stored ? JSON.parse(stored) : null;
+  });
   const [loggedIn, setLoggedIn] = useState(false);
+
+  console.log(userInfo);
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
   }
@@ -83,6 +89,9 @@ export default function App() {
     );
   }
 
+  useEffect(() => {
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+  }, [userInfo]);
   useEffect(
     function () {
       localStorage.setItem("watched", JSON.stringify(watched));
@@ -109,6 +118,7 @@ export default function App() {
         <Logo />
         <InputBar query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
+        <DetailsBar userInfo={userInfo} setLoggedIn={setLoggedIn} />
       </NavBar>
       <Main>
         {/* <Box element={<MovieList movies={movies} />} />
@@ -183,7 +193,29 @@ function NumResults({ movies }) {
   return (
     <p className="num-results">
       Found <strong>{movies.length}</strong> results
+      {/* <span>
+        {userInfo.map((user) => {
+          user.email;
+        })}
+      </span> */}
     </p>
+  );
+}
+
+function DetailsBar({ userInfo, setLoggedIn }) {
+  return (
+    <>
+      <p className="details-bar3">
+        {userInfo.email}{" "}
+        <span
+          className="log-out"
+          type="button"
+          onClick={() => setLoggedIn(false)}
+        >
+          <FiLogOut size={22} />
+        </span>
+      </p>
+    </>
   );
 }
 

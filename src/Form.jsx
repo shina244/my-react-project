@@ -9,8 +9,8 @@ export default function Form({ userInfo, setUserInfo, loggedIn, setLoggedIn }) {
       email: inputVal,
       password: password,
     };
-    const newState = [...userInfo, state];
-    setUserInfo(newState);
+    // const newState = { state };
+    setUserInfo(state);
     if (inputVal !== "" && password !== "") {
       setLoggedIn(true);
     }
